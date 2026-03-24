@@ -1,5 +1,8 @@
 use minijinja::machinery::TemplateConfig;
 use minijinja::AutoEscape;
+use minijinja::ErrorKind;
+use minijinja::value::Value;
+use serde_json::Value as JsonValue;
 use std::collections::{BTreeMap, HashMap};
 use std::sync::Arc;
 use wasm_bindgen::prelude::*;
@@ -30,6 +33,45 @@ fn annotate_error(err: minijinja::Error) -> JsError {
 
 #[wasm_bindgen]
 impl JsExposedEnv {
+    pub fn add_filter(&mut self, name: &str, filter: js_sys::Function) -> Result<(), JsError> {
+        let filter_name = name.to_string();
+        let callback = filter.clone();
+        self.env.add_filter(
+            filter_name,
+            move |value: Value| -> Result<Value, minijinja::Error> {
+                let value_json: JsonValue = serde_json::to_value(value).map_err(|err| {
+                    minijinja::Error::new(
+                        ErrorKind::InvalidOperation,
+                        format!("failed to serialize filter input: {err}"),
+                    )
+                })?;
+                let js_value = serde_wasm_bindgen::to_value(&value_json).map_err(|err| {
+                    minijinja::Error::new(
+                        ErrorKind::InvalidOperation,
+                        format!("failed to convert filter input to JsValue: {err}"),
+                    )
+                })?;
+
+                let output = callback.call1(&JsValue::NULL, &js_value).map_err(|err| {
+                    minijinja::Error::new(
+                        ErrorKind::InvalidOperation,
+                        format!("js filter callback failed: {err:?}"),
+                    )
+                })?;
+
+                serde_wasm_bindgen::from_value::<JsonValue>(output)
+                    .map(Value::from_serialize)
+                    .map_err(|err| {
+                    minijinja::Error::new(
+                        ErrorKind::InvalidOperation,
+                        format!("failed to deserialize filter output: {err}"),
+                    )
+                })
+            },
+        );
+        Ok(())
+    }
+
     pub fn render(&self, template: &str, context: JsValue) -> Result<String, JsError> {
         let tmpl = self.env.get_template(template).map_err(annotate_error)?;
         let context: serde_json::Value = serde_wasm_bindgen::from_value(context)?;
