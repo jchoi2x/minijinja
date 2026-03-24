@@ -8,18 +8,9 @@
     "registry": "https://npm.pkg.github.com"
   },
   "files": [
-    "pkg/web/minijinja.js",
-    "pkg/web/minijinja.d.ts",
-    "pkg/web/minijinja_bg.wasm",
-    "pkg/web/*",
-    "pkg/node/minijinja.js",
-    "pkg/node/minijinja.d.ts",
-    "pkg/node/minijinja_bg.wasm",
-    "pkg/node/*",
-    "pkg/workerd/minijinja.js",
-    "pkg/workerd/minijinja.d.ts",
-    "pkg/workerd/minijinja_bg.wasm",
-    "pkg/workerd/*"
+    "pkg/web/**",
+    "pkg/node/**",
+    "pkg/workerd/**"
   ],
   "exports": {
     ".": {
