@@ -1,10 +1,45 @@
 {
-  "name": "@openrouter/minijinja",
+  "name": "@jchoi2x/minijinja",
   "version": "0.0.1",
+  "type": "module",
+  "main": "./pkg/web/minijinja.js",
+  "types": "./pkg/web/minijinja.d.ts",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "files": [
+    "pkg/web/minijinja.js",
+    "pkg/web/minijinja.d.ts",
+    "pkg/web/minijinja_bg.wasm",
+    "pkg/node/minijinja.js",
+    "pkg/node/minijinja.d.ts",
+    "pkg/node/minijinja_bg.wasm",
+    "pkg/workerd/minijinja.js",
+    "pkg/workerd/minijinja.d.ts",
+    "pkg/workerd/minijinja_bg.wasm"
+  ],
+  "exports": {
+    ".": {
+      "workerd": "./pkg/workerd/minijinja.js",
+      "browser": "./pkg/web/minijinja.js",
+      "node": "./pkg/node/minijinja.js",
+      "default": "./pkg/web/minijinja.js"
+    },
+    "./minijinja_bg.wasm": {
+      "workerd": "./pkg/workerd/minijinja_bg.wasm",
+      "browser": "./pkg/web/minijinja_bg.wasm",
+      "node": "./pkg/node/minijinja_bg.wasm",
+      "default": "./pkg/web/minijinja_bg.wasm"
+    }
+  },
   "description": "WASM binding for minijinja",
   "scripts": {
-    "build": "wasm-pack build --target web --scope openrouter",
-    "publish": "wasm-pack publish --access public",
+    "clean": "rm -rf pkg",
+    "build:web": "wasm-pack build --target web --scope jchoi2x --out-dir pkg/web --out-name minijinja",
+    "build:node": "wasm-pack build --target nodejs --scope jchoi2x --out-dir pkg/node --out-name minijinja",
+    "build:workerd": "wasm-pack build --target bundler --scope jchoi2x --out-dir pkg/workerd --out-name minijinja",
+    "build": "pnpm run clean && pnpm run build:web && pnpm run build:node && pnpm run build:workerd",
+    "publish:gh": "pnpm run build && npm publish",
     "prepublish": "pnpm build"
   },
   "author": "OpenRouter",

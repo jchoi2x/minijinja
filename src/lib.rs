@@ -70,7 +70,12 @@ fn convert_instructions<'a, 'source>(
     instructions: &'a machinery::Instructions<'source>,
 ) -> Vec<&'a machinery::Instruction<'source>> {
     (0..instructions.len())
-        .map(|idx| instructions.get(idx).unwrap())
+        .map(|idx| {
+            let idx = u32::try_from(idx).expect("instruction index overflowed u32");
+            instructions
+                .get(idx)
+                .expect("instruction index should be in bounds")
+        })
         .collect::<Vec<_>>()
 }
 
