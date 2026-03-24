@@ -27,15 +27,15 @@
     }
   },
   "description": "WASM binding for minijinja",
-  "scripts": {
-    "clean": "rm -rf pkg",
-    "build:web": "wasm-pack build --target web --scope jchoi2x --out-dir pkg/web --out-name minijinja",
-    "build:node": "wasm-pack build --target nodejs --scope jchoi2x --out-dir pkg/node --out-name minijinja",
-    "build:workerd": "wasm-pack build --target bundler --scope jchoi2x --out-dir pkg/workerd --out-name minijinja",
-    "build": "pnpm run clean && pnpm run build:web && pnpm run build:node && pnpm run build:workerd",
-    "publish:gh": "pnpm run build && npm publish",
-    "prepublish": "pnpm build"
-  },
+"scripts": {
+  "clean": "rm -rf pkg",
+  "build:web": "wasm-pack build --target web --scope jchoi2x --out-dir pkg/web --out-name minijinja",
+  "build:node": "wasm-pack build --target nodejs --scope jchoi2x --out-dir pkg/node --out-name minijinja",
+  "build:workerd": "wasm-pack build --target bundler --scope jchoi2x --out-dir pkg/workerd --out-name minijinja",
+  "postbuild": "rm -f pkg/web/.gitignore pkg/node/.gitignore pkg/workerd/.gitignore",
+  "build": "pnpm run clean && pnpm run build:web && pnpm run build:node && pnpm run build:workerd && pnpm run postbuild",
+  "prepack": "pnpm run build"
+},
   "author": "OpenRouter",
   "contributors": [
     "@openrouter/hackers"
