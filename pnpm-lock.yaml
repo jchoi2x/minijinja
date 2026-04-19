@@ -8,6 +8,9 @@ importers:
 
   .:
     devDependencies:
+      binaryen:
+        specifier: 129.0.0
+        version: 129.0.0
       prettier:
         specifier: 3.3.2
         version: 3.3.2
@@ -29,6 +32,10 @@ packages:
   binary-install@1.1.0:
     resolution: {integrity: sha512-rkwNGW+3aQVSZoD0/o3mfPN6Yxh3Id0R/xzTVBVVpGNlVz8EGwusksxRlbk/A5iKTZt9zkMn3qIqmAt3vpfbzg==}
     engines: {node: '>=10'}
+
+  binaryen@129.0.0:
+    resolution: {integrity: sha512-NyF5J0SfRoLDthpPh36FGTycOEv3Eqnkq3+mP5Cqt6iD9BLGGJMEVuPzu81nhLy2MMpPKmRTM9VLZihfyRQv8A==}
+    hasBin: true
 
   brace-expansion@1.1.11:
     resolution: {integrity: sha512-iCuPHDFgrHX7H2vEI/5xpz07zSHB00TpugqhmYtVmMO6518mCuRMoOYFldEBl0g187ufozdaHgWKcYFb61qGiA==}
@@ -140,6 +147,8 @@ snapshots:
       tar: 6.2.1
     transitivePeerDependencies:
       - debug
+
+  binaryen@129.0.0: {}
 
   brace-expansion@1.1.11:
     dependencies:

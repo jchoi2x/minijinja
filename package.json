@@ -1,6 +1,6 @@
 {
   "name": "@jchoi2x/minijinja",
-  "version": "0.0.8",
+  "version": "0.0.13",
   "type": "module",
   "main": "./pkg/web/minijinja.js",
   "types": "./pkg/web/minijinja.d.ts",
@@ -46,8 +46,9 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "wasm-pack": "0.13.0",
+    "binaryen": "129.0.0",
+    "prettier": "3.3.2",
     "typescript": "5.4.5",
-    "prettier": "3.3.2"
+    "wasm-pack": "0.13.0"
   }
 }
