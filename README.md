@@ -1,6 +1,6 @@
 # MiniJinja WASM Package
 
-This repository publishes a WASM wrapper for MiniJinja with multiple runtime targets.
+This repository is a fork of [MiniJinja](https://github.com/mitsuhiko/minijinja), optimized to run on Cloudflare Workers (`workerd`) while still publishing WASM builds for multiple runtime targets.
 
 ## Build
 
